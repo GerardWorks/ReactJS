@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- react library allows to write components -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
+    <!-- react-dom renders the components to the DOM -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
+    <!-- babel i am using an older version for now-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+    var SecondComponent = React.createClass({
+      propTypes: {
+        name: React.PropTypes.string.isRequired, //errors will show if no name is provided
+        location: React.PropTypes.string.isRequired
+      },
+      getDefaultProps: function(){
+        return {
+          name: 'Gerard', //default name if no name was provided
+          location: 'Perth'
+        }
+      },
+      render: function(){
+        let name = this.props.name;
+        let location = this.props.location;
+        return (
+          <div>
+            <p>Hello, {name}!</p>
+            <p>I live in {location}. </p>
+          </div>
+        )
+      }
+    });
+
+    // SecondComponent.propTypes = {
+    //   name: React.PropTypes.number
+    // } you can define the property types within the component or not
+
+    ReactDOM.render(
+      <SecondComponent name="Gerard" location="Melbourne"/>, //passing a property into the component, but u can pass many as you want
+      document.getElementById('app')
+    );
+    </script>
+  </body>
+</html>
