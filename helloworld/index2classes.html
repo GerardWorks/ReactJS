@@ -15,24 +15,22 @@
 
     </div>
     <script type="text/babel">
-    //JSX javascript extension
-    //transforms back to javascript
-    //have to use Babel or gulp .. but we going to use Babel
+    var FirstComponent = React.createClass({
+      render: function(){
+        return (
+          <div>
+            <h1>This is our first component </h1>
+            <h2>Hello World!</h2>
+          </div>
+        )
+      }
+    }); //javascript object
 
     ReactDOM.render(
-      <h1>Hello World, this is written in JSX! </h1>,
+      <FirstComponent/>,//written like XML
       document.getElementById('app')
     );
 
-
-    // ReactDOM.render( //this method renders everything within it onto the DOM
-    //   React.createElement( //using the react library and inside there is a method called createElement
-    //     'h1', //the tag name
-    //     null, // this is the properties
-    //     'Hello World!' //this is the text inbetween the tags
-    //   ),
-    //   document.getElementById('app') //normal javascript DOM selector
-    // );
     </script>
   </body>
 </html>
