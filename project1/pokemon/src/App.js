@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import 'whatwg-fetch';
 import PokemonIndexList from './components/PokemonIndexList'
+import PokemonModal from './components/PokemonModal'
 
 class App extends Component {
   constructor(props){
@@ -14,18 +15,22 @@ class App extends Component {
       offset: 0,
       totalPages: 0,
       count:0,
-      loaded: false
+      loaded: false,
+      showModal: false,
+      selectedPokemon: null
     };
     this.loadPokemon = this.loadPokemon.bind(this);
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this);
     this.handleLimitChange = this.handleLimitChange.bind(this);
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
+
   }
   loadPokemon(url){
     fetch(url)
     .then(response => {
       return response.json();
     }).then(json => {
-      console.log(json)
       let pages = Math.round(json.count / this.state.limit);
       this.setState({
         pokemon:json.results,
@@ -41,7 +46,6 @@ class App extends Component {
     this.loadPokemon(`${this.props.baseUrl}/pokemon/?limit=${this.state.limit}&offset=${this.state.offset}`);
   }
   handlePaginationSelect(selectedPage){
-    console.log(selectedPage)
     let offset = this.state.limit * (selectedPage - 1)
     this.loadPokemon(`${this.props.baseUrl}/pokemon/?limit=${this.state.limit}&offset=${offset}`);
     this.setState({
@@ -55,6 +59,27 @@ class App extends Component {
       activePage: 1
     },()=>{
       this.loadPokemon(`${this.props.baseUrl}/pokemon/?limit=${this.state.limit}&offset=0`);
+    })
+  }
+  handleModalOpen(pokemon){
+    if(pokemon.url !== undefined){
+      fetch(`${pokemon.url}`)
+      .then(response =>{
+        return response.json();
+      }).then(json => {
+        console.log(json)
+        this.setState({
+          selectedPokemon: json,
+          showModal:true
+        })
+      }).catch(err => {
+        console.log("parsing failed",err)
+      })
+    }
+  }
+  handleModalClose(){
+    this.setState({
+      showModal: false
     })
   }
   render() {
@@ -77,7 +102,9 @@ class App extends Component {
           activePage={this.state.activePage}
           onSelect={this.handlePaginationSelect}
           totalPages={this.state.totalPages}
+          openModal={this.handleModalOpen}
         />
+        <PokemonModal  showModal={this.state.showModal} closeModal={this.handleModalClose} pokemon={this.state.selectedPokemon}/>
       </div>
     );
   }
