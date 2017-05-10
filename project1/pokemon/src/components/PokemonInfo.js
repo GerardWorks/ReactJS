@@ -26,6 +26,7 @@ const PokemonInfo = ({pokemon}) => {
   return (
     <div className='Aligner'>
       <img className="Aligner-item" src={pokemon.sprites.front_default} />
+      <p>Type: <span id="textCap">{pokemon.types[0].type.name}</span></p>
       <Radar data={chartData} width="300" height="250" />
     </div>
   )

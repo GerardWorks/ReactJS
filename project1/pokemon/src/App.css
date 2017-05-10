@@ -38,3 +38,6 @@ button.PokeList-item.list-group-item{
 .Aligner-item{
   max-width: 50%;
 }
+#textCap{
+  text-transform: capitalize;
+}
